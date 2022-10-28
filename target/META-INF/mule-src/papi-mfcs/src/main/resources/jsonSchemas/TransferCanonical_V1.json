@@ -1,0 +1,195 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"$ref": "#/definitions/transfer",
+	"definitions": {
+		"transfer": {
+			"description": "Transfer Canonical Schema",
+			"type": "object",
+			"required": [
+				"headers"
+			],
+			"additionalProperties": false,
+			"minProperties": 2,
+			"properties": {
+				"headers": {
+					"$ref": "#/definitions/headers"
+				},
+				"transfer_desc": {
+					"$ref": "#/definitions/object_01"
+				},
+				"transfer_reference": {
+					"$ref": "#/definitions/object_02"
+				}
+			}
+		},
+		"headers": {
+			"title": "headers",
+			"type": "object",
+			"required": [
+				"request_identifier",
+				"message_type"
+			],
+			"additionalProperties": false,
+			"properties": {
+				"source_system": {
+					"type": "string"
+				},
+				"source_channel": {
+					"type": "string"
+				},
+				"request_identifier": {
+					"type": "string"
+				},
+				"correlation_id": {
+					"type": "string"
+				},
+				"message_type": {
+					"type": "string"
+				}
+			}
+		},
+		"object_01": {
+			"title": "transfer_desc",
+			"type": "array",
+			"additionalProperties": false,
+			"properties": {
+				"tsf_no": {
+					"type": "number"
+				},
+				"from_loc_type": {
+					"type": "string"
+				},
+				"from_loc": {
+					"type": "string"
+				},
+				"to_loc_type": {
+					"type": "string"
+				},
+				"to_loc": {
+					"type": "string"
+				},
+				"delivery_date": {
+					"type": "string"
+				},
+				"dept": {
+					"type": "number"
+				},
+				"routing_code": {
+					"type": "string"
+				},
+				"freight_code": {
+					"type": "string"
+				},
+				"tsf_type": {
+					"type": "string"
+				},
+				"tsf_dtl": {
+					"type": "array",
+					"title": "tsf_dtl",
+					"items": {
+						"type": "object",
+						"required": [
+							"item"
+						],
+						"additionalProperties": false,
+						"properties": {
+							"item": {
+								"type": "string"
+							},
+							"tsf_qty": {
+								"type": "number"
+							},
+							"supp_pack_size": {
+								"type": "number"
+							},
+							"inv_status": {
+								"type": "number"
+							},
+							"unit_cost": {
+								"type": "number"
+							},
+							"adjustment_type": {
+								"type": "string"
+							},
+							"adjustment_value": {
+								"type": "number"
+							},
+							"status": {
+								"type": "string"
+							}
+						}
+					}
+				},
+				"status": {
+					"type": "string"
+				},
+				"user_id": {
+					"type": "string"
+				},
+				"comment_desc": {
+					"type": "string"
+				},
+				"context_type": {
+					"type": "string"
+				},
+				"context_value": {
+					"type": "string"
+				},
+				"cust_flex_attri_vo": {
+					"$ref": "#/definitions/array_01"
+				}
+			}
+		},
+		"object_02": {
+			"title": "tsf_ref",
+			"type": "array",
+			"required": [
+				"tsf_no"
+			],
+			"additionalProperties": false,
+			"properties": {
+				"tsf_no": {
+					"type": "number"
+				},
+				"tsf_dtl_ref": {
+					"type": "array",
+					"title": "tsf_dtl_ref",
+					"items": {
+						"type": "object",
+						"required": [
+							"item"
+						],
+						"additionalProperties": false,
+						"properties": {
+							"item": {
+								"type": "string"
+							}
+						}
+					}
+				}
+			}
+		},
+		"array_01": {
+			"type": "array",
+			"title": "cust_flex_attri_vo",
+			"items": {
+				"type": "object",
+				"required": [
+					"name"
+				],
+				"additionalProperties": false,
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"value": {
+						"type": "string"
+					},
+					"value_date": {
+						"type": "string"
+					}
+				}
+			}
+		}
+	}
+}

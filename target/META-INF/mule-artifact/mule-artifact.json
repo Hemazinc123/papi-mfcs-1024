@@ -1,0 +1,63 @@
+{
+  "configs": [
+    "router.xml",
+    "global.xml",
+    "delete-transfer.xml",
+    "patch-transferDetails.xml",
+    "get-ping.xml"
+  ],
+  "secureProperties": [],
+  "redeploymentEnabled": true,
+  "name": "com.mycompany:papi-mfcs:1.0.0-SNAPSHOT",
+  "minMuleVersion": "4.4.0",
+  "requiredProduct": "MULE_EE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "exportedPackages": [],
+      "exportedResources": [
+        "api/dataType/dataType.raml",
+        "api/example/health.Response.json",
+        "api/example/healthCheckResponseexample.raml",
+        "api/example/pingexample.raml",
+        "api/example/pingResponse.json",
+        "api/example/transfercreate.json",
+        "api/example/TransferCreate.xml",
+        "api/example/transferdel.xml",
+        "api/example/TransferdeltailsCreate.xml",
+        "api/example/TransferdeltailsDel.xml",
+        "api/example/TransferdeltailsMod.xml",
+        "api/example/TransferHeaderpatch.xml",
+        "api/im-mfcs-transfer-papi.raml",
+        "api/libraries/healthcheck.raml",
+        "api/resource Type/healthCheckResponse.raml",
+        "api/resource Type/pingResponse.raml",
+        "api/schemas/CustFlexAttriVo.xsd",
+        "api/schemas/Transferdec.xsd",
+        "api/schemas/Transferheaderdel.xsd",
+        "api/schemas/Transferref.xsd",
+        "api/securitySchemes/BasicSecurityScheme.raml",
+        "api/securitySchemes/OathsecurityScheme.raml",
+        "api/traits/Response.raml",
+        "application-types.xml",
+        "common.yaml",
+        "delete-transfer.xml",
+        "dev.yaml",
+        "dwl/trancre",
+        "dwl/trandelete",
+        "get-ping.xml",
+        "global.xml",
+        "jsonSchemas/TransferCanonical_V1.json",
+        "jsonSchemas/TsfDesc_JsonSchema.json",
+        "jsonSchemas/TsfRef_JsonSchema.json",
+        "log4j2.xml",
+        "patch-transferDetails.xml",
+        "router.xml"
+      ]
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  }
+}

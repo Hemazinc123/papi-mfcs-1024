@@ -1,0 +1,14 @@
+{
+  "value":"",
+ "status": "alive",
+  "application": "product-sapi",
+  "env": "dev",
+  "version": "v1",
+  "systems":"",
+  "name": "Web",
+  "status1": "success",
+  "message": "API is up and running",
+  "name1": "MobileApp",
+  "status2": "success",
+  "message1": "API is up and running"
+}

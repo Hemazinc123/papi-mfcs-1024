@@ -1,0 +1,53 @@
+%dw 2.0
+output application/json
+ns ns1 http://www.oracle.com/retail/integration/base/bo/TsfDesc/v1
+---
+{
+    TsfDesc :
+    {
+        tsf_no:payload.TsfDesc.tsf_no as Number,
+        doc_type:payload.TsfDesc.doc_type,
+        physical_from_loc:payload.TsfDesc.physical_from_loc as Number,
+        from_loc_type:payload.TsfDesc.from_loc_type,
+        from_loc:payload.TsfDesc.from_loc ,
+        physical_to_loc:payload.TsfDesc.physical_to_loc as Number,
+        to_loc_type:payload.TsfDesc.to_loc_type ,
+        to_store_type:payload.TsfDesc.to_store_type,
+        to_stockholding_ind:payload.TsfDesc.to_stockholding_ind,
+        to_loc:payload.TsfDesc.to_loc ,
+        tsf_type:payload.TsfDesc.tsf_type,
+        pick_not_before_date:payload.TsfDesc.pick_not_before_date ,
+        pick_not_after_date:payload.TsfDesc.pick_not_after_date ,
+        order_type:payload.TsfDesc.order_type,
+        break_by_distro:payload.TsfDesc.break_by_distro,
+        inv_type:payload.TsfDesc.inv_type,
+        tsf_status:payload.TsfDesc.tsf_status,
+        TsfDtl: payload.TsfDesc.*TsfDtl map (TsfDtl, indexOfTsfDtl)-> {
+            item: TsfDtl.item,
+            tsf_qty: TsfDtl.tsf_qty as Number,
+            price: TsfDtl.price as Number,
+            selling_uom: TsfDtl.selling_uom,
+            expedite_flag: TsfDtl.expedite_flag,
+            store_ord_mult: TsfDtl.store_ord_mult
+
+        },
+        exp_dc_date: payload.TsfDesc.exp_dc_date,
+		approval_id: payload.TsfDesc.approval_id,
+		approval_date: payload.TsfDesc.approval_date,
+		from_loc_tsf_entity: payload.TsfDesc.from_loc_tsf_entity as Number,
+		to_loc_tsf_entity: payload.TsfDesc.to_loc_tsf_entity as Number,
+		inv_type: payload.TsfDesc.inv_type,
+		tsf_status: payload.TsfDesc.tsf_status,
+		not_after_date: payload.TsfDesc.not_after_date,
+		context_type: payload.TsfDesc.context_type,
+		context_value: payload.TsfDesc.context_value,
+		consumer_direct: payload.TsfDesc.consumer_direct
+
+    }
+}
+
+
+
+
+
+

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:module-eventlogger="http://www.mulesoft.org/schema/mule/module-eventlogger"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/module-eventlogger http://www.mulesoft.org/schema/mule/module-eventlogger/current/mule-module-eventlogger.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<module-eventlogger:config name="EventLogger_Config" doc:name="EventLogger Config" doc:id="0e133404-3277-458a-853c-68b3e11f8a99" />
+	<flow name="sf-get-ping" doc:id="89a08524-e7e2-4cbb-9487-e5c412896ada" >
+		<module-eventlogger:logger doc:name="START:Logger" doc:id="a1faebc7-909d-4418-ac97-71cba1f0e9be" message="START: sf-get-ping" apiFlowName="sf-get-ping" config-ref="EventLogger_Config"/>
+		<ee:transform doc:name="Transform Message" doc:id="bf61d63b-0483-45c3-a6a0-3d607e212b21" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  status: "alive",
+  application:Mule::p('app.name'),
+  env:Mule::p('mule.env'),
+  version: Mule::p('app.version') 
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<module-eventlogger:logger doc:name="END:Logger" doc:id="3b6248a6-e792-42a3-9c4f-941f23d7ea22" config-ref="EventLogger_Config" message="sf-get-ping" apiFlowName="sf-get-ping" severity="DEBUG"/>
+	</flow>
+</mule>

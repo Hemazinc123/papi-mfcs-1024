@@ -1,0 +1,118 @@
+#%RAML 1.0
+title: PAPI
+version: v1
+protocols: [ HTTP,HTTPS]
+description: Transfers created in MFCS will be sent to  WH in near real time. 
+
+securedBy: [Basicauth,Oauth]
+securitySchemes:
+  Basicauth: !include securitySchemes/BasicSecurityScheme.raml
+  Oauth: !include securitySchemes/OathsecurityScheme.raml
+  
+baseUri: https://{baseURL}/api/transfers-papi/v1/
+baseUriParameters:
+  baseURL:
+    description: Use the below baseURL's for each specific env.
+    enum:
+      - esb-dev01.api.com
+      - esb-qa01.api.com
+      - esb-qa03.api.com
+      - esb-uat01.api.com
+      - esb-uat03.api.com
+      - esb-prod01.api.com
+traits:
+  ResponsesCode: !include traits/Response.raml
+types:
+  GetResponse: !include dataType/dataType.raml
+
+/healthCheck:
+  get:
+    displayName: healthCheck
+    description: Checks if this API's dependent systems are alive, and returns a 200 status OK if the API call succeeds.
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include example/health.Response.json
+/ping: 
+ get:
+    displayName: healthCheck
+    description: Checks if this API's dependent systems are alive, and returns a 200 status OK if the API call succeeds.
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include example/pingResponse.json
+/transfer:
+  post:
+    description: Transfer Create Message.
+    body:
+      application/xml:
+        example: !include example/TransferCreate.xml
+    responses:
+      201:
+        body:
+          application/json: 
+            example: !include example/transfercreate.json
+  delete:
+    is:
+      [ResponsesCode]
+    description: Transfer delete Message.
+    body:
+      application/xml:
+        example: !include example/transferdel.xml
+        type: !include schemas/Transferref.xsd    
+  /header:
+    patch:
+      is:
+        [ResponsesCode]
+      description: Transfers Header Mod
+      body:
+        application/xml:
+          example: !include example/TransferHeaderpatch.xml   
+  /details:
+    post:
+      is:
+         [ResponsesCode]
+      body:
+        application/xml:
+          example: !include example/TransferdeltailsCreate.xml
+    patch:
+      is:
+        [ResponsesCode]
+      body:
+        application/xml:
+          example: !include example/TransferdeltailsMod.xml
+    delete:
+      is:
+        [ResponsesCode]
+      body:
+        application/xml:
+          example: !include example/TransferdeltailsDel.xml
+          type: !include schemas/Transferref.xsd
+            
+
+            
+            
+            
+        
+          
+      
+         
+              
+
+
+       
+      
+
+          
+
+        
+  
+          
+          
+ 
+        
+          
+
+    

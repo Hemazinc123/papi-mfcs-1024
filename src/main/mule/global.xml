@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+	xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd">
+	<api-gateway:autodiscovery apiId="18249795" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="c63962e4-3b75-4a9c-8da2-1f45fa59d874" flowRef="api-main" />
+	<global-property doc:name="Global Property" doc:id="7a2eca6e-df7f-472d-abaa-ef8e241d239a" name="mule.env" value="dev" />
+    <apikit:config name="im-mfcs-transfer-papi-config" api="im-mfcs-transfer-papi.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" parser="AMF">
+		<apikit:flow-mappings >
+			<apikit:flow-mapping resource="/ping" action="get" flow-ref="mf-get-ping" />
+			<apikit:flow-mapping resource="/healthCheck" action="get" flow-ref="mf-get-healthCheck" />
+			<apikit:flow-mapping resource="/transfer/header" action="patch" content-type="application/xml" flow-ref="mf-patch-transfer\header" />
+			<apikit:flow-mapping resource="/transfer" action="post" content-type="application/xml" flow-ref="mf-post-transfer" />
+			<apikit:flow-mapping resource="/transfer" action="delete" content-type="application/xml" flow-ref="mf-delete-transfer" />
+			<apikit:flow-mapping resource="/transfer/details" action="post" content-type="application/xml" flow-ref="mf-post-transfer\details" />
+			<apikit:flow-mapping resource="/transfer/details" action="patch" content-type="application/xml" flow-ref="mf-patch-transfer\details" />
+			<apikit:flow-mapping resource="/transfer/details" action="delete" content-type="application/xml" flow-ref="mf-delete-transfer\details" />
+		</apikit:flow-mappings>
+	</apikit:config>
+    <http:listener-config name="im-mfcs-transfer-papi-httpListenerConfig">
+        <http:listener-connection host="0.0.0.0" port="8081" />
+    </http:listener-config>
+</mule>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:xml-module="http://www.mulesoft.org/schema/mule/xml-module"
+	xmlns:json="http://www.mulesoft.org/schema/mule/json"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:module-eventlogger="http://www.mulesoft.org/schema/mule/module-eventlogger" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/module-eventlogger http://www.mulesoft.org/schema/mule/module-eventlogger/current/mule-module-eventlogger.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
+http://www.mulesoft.org/schema/mule/xml-module http://www.mulesoft.org/schema/mule/xml-module/current/mule-xml-module.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+	<flow name="mf-patch-transfer-Deatails" doc:id="9714bab1-0321-45bc-929e-26597e3ef186" >
+		<module-eventlogger:logger doc:name="START:Logger" doc:id="2e81e443-21b6-4c73-b60a-3345ad51aea4" config-ref="EventLogger_Config" message="START:sf-post-transfer" apiFlowName="sf-post-transfer"/>
+		<ee:transform doc:name="DW:XML to JSON" doc:id="f633c20d-cfd2-48cc-9658-0dd9e1dac328" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+ns ns1 http://www.oracle.com/retail/integration/base/bo/TsfDesc/v1
+---
+{
+    TsfDesc :
+    {
+        tsf_no:payload.TsfDesc.tsf_no as Number,
+        doc_type:payload.TsfDesc.doc_type,
+        physical_from_loc:payload.TsfDesc.physical_from_loc as Number,
+        from_loc_type:payload.TsfDesc.from_loc_type,
+        from_loc:payload.TsfDesc.from_loc ,
+        physical_to_loc:payload.TsfDesc.physical_to_loc as Number,
+        to_loc_type:payload.TsfDesc.to_loc_type ,
+        to_store_type:payload.TsfDesc.to_store_type,
+        to_stockholding_ind:payload.TsfDesc.to_stockholding_ind,
+        to_loc:payload.TsfDesc.to_loc ,
+        tsf_type:payload.TsfDesc.tsf_type,
+        pick_not_before_date:payload.TsfDesc.pick_not_before_date ,
+        pick_not_after_date:payload.TsfDesc.pick_not_after_date ,
+        order_type:payload.TsfDesc.order_type,
+        break_by_distro:payload.TsfDesc.break_by_distro,
+        inv_type:payload.TsfDesc.inv_type,
+        tsf_status:payload.TsfDesc.tsf_status,
+        TsfDtl: payload.TsfDesc.*TsfDtl map (TsfDtl, indexOfTsfDtl)-> {
+            item: TsfDtl.item,
+            tsf_qty: TsfDtl.tsf_qty as Number,
+            price: TsfDtl.price as Number,
+            selling_uom: TsfDtl.selling_uom,
+            expedite_flag: TsfDtl.expedite_flag,
+            store_ord_mult: TsfDtl.store_ord_mult
+
+        },
+        exp_dc_date: payload.TsfDesc.exp_dc_date,
+		approval_id: payload.TsfDesc.approval_id,
+		approval_date: payload.TsfDesc.approval_date,
+		from_loc_tsf_entity: payload.TsfDesc.from_loc_tsf_entity as Number,
+		to_loc_tsf_entity: payload.TsfDesc.to_loc_tsf_entity as Number,
+		inv_type: payload.TsfDesc.inv_type,
+		tsf_status: payload.TsfDesc.tsf_status,
+		not_after_date: payload.TsfDesc.not_after_date,
+		context_type: payload.TsfDesc.context_type,
+		context_value: payload.TsfDesc.context_value,
+		consumer_direct: payload.TsfDesc.consumer_direct
+
+    }
+}
+
+
+
+
+
+
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<json:validate-schema doc:name="Validate JSON schema " doc:id="5063e1c2-0dbc-414c-a232-3065c6ef2c20" schema="jsonSchemas/TsfDesc_JsonSchema.json" />
+		<module-eventlogger:logger doc:name="DEBUG:Logger" doc:id="ef86aba1-7883-44ce-a62d-c72a69dd79d2" config-ref="EventLogger_Config" message="DEBUG: After valiadating the schema" apiFlowName="sf-post-transfer" severity="TRACE"/>
+		<flow-ref doc:name="sf-patch-transferDetails" doc:id="aabaeba9-d196-4c9b-8902-1ed643bce472" name="sf-patch-transferDetails"/>
+	</flow>
+	<sub-flow name="sf-patch-transferDetails" doc:id="e22f9954-aad5-402f-9a96-0ea674f50cc8" >
+		<try doc:name="Try" doc:id="c5b3ec2e-be3c-441a-9bbe-0ae8fd580e16" >
+			<choice doc:name="Choice" doc:id="d0164eda-92f5-4745-bbcb-e2c747c7eaa8">
+			<when expression='#[vars.vHttpHeaders.transactionType== "transfercre"]'>
+				<file:write doc:name="Transfer Create " doc:id="176c4f73-e84f-46a8-abc5-358363a588e6" path="D:\Pratice\Read\transfercreateRyder.json"/>
+				<logger level="INFO" doc:name="DEBUG:Logger" doc:id="298c8219-de92-4c3c-bc56-3e5574a7aa65" message="payload" />
+			</when>
+			<when expression='#[vars.vHttpHeaders.transactionType== "transferheadermod"]'>
+				<file:write doc:name="TransferHeaderMod" doc:id="ba65709e-b169-4de3-aa3a-35296e3abe2e" path="D:\Pratice\Read\transferhedmod.txt" />
+				<logger level="INFO" doc:name="Debug:Logger" doc:id="0092106e-649a-4329-aab7-29f875d7e33d" message="payload" />
+			</when>
+			<when expression='#[vars.vHttpHeaders.transactionType== "transferdtlcre"]'>
+				<file:write doc:name="TransferDtlCre" doc:id="f887dd96-0609-4554-b7a7-9fcde6a6b308" path="D:\Pratice\Read\transferdetcre.txt"/>
+				<logger level="INFO" doc:name="DEBUG:Logger" doc:id="b4b3fc84-cad4-4383-9aee-d7b410b40fa8" message="payload" />
+			</when>
+			<when expression='#[vars.vHttpHeaders.transactionType== "transferdelmod"]'>
+				<file:write doc:name="TransferDelMod" doc:id="abf4d58c-a795-43b6-9548-1d1bacc70826" path="D:\Pratice\Read\transfermod.txt"/>
+				<logger level="INFO" doc:name="DEBUG:Logger" doc:id="dff62224-650e-404f-bb46-77aa243af16f" message="payload" />
+			</when>
+		</choice>
+			<error-handler >
+				<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="b97a63c7-ce08-4916-9d47-cca267441421" type="ANY">
+					<logger level="INFO" doc:name="ERROR:Logger" doc:id="05f101bc-d16b-4720-90eb-66ce44643383" message="ERROR: Logging Event at sf-patch-transferDetails"/>
+				</on-error-continue>
+			</error-handler>
+		</try>
+	</sub-flow>
+</mule>

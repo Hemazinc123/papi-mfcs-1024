@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:json="http://www.mulesoft.org/schema/mule/json"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:module-eventlogger="http://www.mulesoft.org/schema/mule/module-eventlogger" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/module-eventlogger http://www.mulesoft.org/schema/mule/module-eventlogger/current/mule-module-eventlogger.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+	<flow name="mf-delete-transfer-details" doc:id="9714bab1-0321-45bc-929e-26597e3ef186" >
+		<module-eventlogger:logger doc:name="START:Logger" doc:id="2e81e443-21b6-4c73-b60a-3345ad51aea4" config-ref="EventLogger_Config" message="START:sf-delete-transfer" apiFlowName="sf-delete-transfer"/>
+		<ee:transform doc:name="DW: XML to json" doc:id="f633c20d-cfd2-48cc-9658-0dd9e1dac328" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+skipNullOn="everywhere" 
+ns ns1 http://www.oracle.com/retail/integration/base/bo/TsfRef/v1
+---
+{
+   TsfRef:{
+       tsf_no:payload.TsfRef.tsf_no as Number,
+       doc_type:payload.TsfRef.doc_type ,
+       physical_from_loc:payload.TsfRef.physical_from_loc as Number,
+       from_loc:payload.TsfRef.from_loc,
+       from_loc_type:payload.TsfRef.from_loc_type,
+      physical_to_loc:payload.TsfRef.physical_to_loc as Number,
+      to_loc:payload.TsfRef.to_loc ,
+      to_loc_type:payload.TsfRef.to_loc_type,
+      to_store_type:payload.TsfRef.to_store_type,
+      to_stockholding_ind:payload.TsfRef.to_stockholding_ind,
+     TsfDtlRef:payload.TsfRef.*TsfDtlRef map (item,index)->
+     {
+item:item.item
+     }
+   } 
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<json:validate-schema doc:id="bdab99cf-e6c5-4b7c-aaa5-33bd9b3e9687" schema="jsonSchemas/TsfRef_JsonSchema.json"/>
+		<module-eventlogger:logger doc:name="DEBUG:Logger" doc:id="50b052bb-e9cc-4d9e-94ea-2df5eb8cf220" config-ref="EventLogger_Config" message="DEBUG:sf-delete-transfer" apiFlowName="sf-delete-transfer" />
+		<flow-ref doc:name="sf-delete-transfer-details" doc:id="f36cfdf8-e577-455e-969b-3d8ba19b4d31" name="sf-delete-transfer-details"/>
+		<module-eventlogger:logger doc:name="END:Logger" doc:id="5bbcd378-e370-41e3-ac55-c4683b445336" config-ref="EventLogger_Config" apiFlowName="mf-delete-transfer" message="END: Logging event mf-delete-transfer"/>
+	</flow>
+	<sub-flow name="sf-delete-transfer-details" doc:id="d714580a-e7e3-4da1-ba14-b2fe6abab4ea" >
+		<choice doc:name="Choice" doc:id="9c028a64-d3ca-41d3-8ef4-3e3763cdc083">
+			<when expression='#[vars.vHttpHeaders.transactionType== "transferdele"]'>
+			
+				<file:write doc:name="Write" doc:id="ec671fa1-9ace-4fb8-89b0-1f4a058dad61" path="D:\Pratice\Read\transferdelet.txt" />
+				<logger level="INFO" doc:name="Logger" doc:id="dafafc9c-2f40-483f-8d28-58debcdbf2ce" message="payload" />
+			</when>
+			<when expression='#[vars.vHttpHeaders.transactionType== "transferdtldele"]'>
+			
+				<file:write doc:name="Write" doc:id="3c02f46e-e9d6-47fd-9319-9cbdc122c9b9" path="D:\Pratice\Read\transferdetaildelet.txt" />
+				<logger level="INFO" doc:name="Logger" doc:id="549818f3-a311-4c7d-9728-f0bafa8ffdc7" message="payload" />
+			</when>
+		</choice>
+	</sub-flow>
+</mule>

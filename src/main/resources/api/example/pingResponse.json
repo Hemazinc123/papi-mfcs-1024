@@ -1,0 +1,6 @@
+{
+  "status": "alive",
+  "application": "product-sapi",
+  "env": "dev",
+  "version": "v1"
+}
