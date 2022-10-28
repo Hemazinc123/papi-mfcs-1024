@@ -1,0 +1,582 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"additionalProperties": false,
+	"definitions": {
+		".CustFlexAttriVo": {
+			"additionalProperties": false,
+			"description": "This object is used to communicate customer flexible attributes defined for various entities\n               using RMS's CFAS (Customer Flexiable Attribute) structure.",
+			"properties": {
+				"name": {
+					"$ref": "#/definitions/varchar230",
+					"description": "Holds the attribute name."
+				},
+				"value": {
+					"$ref": "#/definitions/varchar2250",
+					"description": "Holds the numeric or string value of the attribute."
+				},
+				"value_date": {
+					"$ref": "#/definitions/dateTime",
+					"description": "Holds the date value of the attribute."
+				}
+			},
+			"required": [
+				"name"
+			],
+			"type": "object"
+		},
+		".TsfDesc": {
+			"additionalProperties": false,
+			"description": "Description is not available.",
+			"properties": {
+				"CustFlexAttriVo": {
+					"items": {
+						"$ref": "#/definitions/.CustFlexAttriVo"
+					},
+					"type": "array"
+				},
+				"TsfDtl": {
+					"items": {
+						"$ref": "#/definitions/.TsfDtl"
+					},
+					"type": "array"
+				},
+				"approval_date": {
+					"$ref": "#/definitions/dateTime",
+					"description": "Date the transfer was approved"
+				},
+				"approval_id": {
+					"$ref": "#/definitions/varchar230",
+					"description": "The ID of the user who approved the transfer"
+				},
+				"bill_add1": {
+					"$ref": "#/definitions/varchar2240",
+					"description": "For customer order transfers, this column contains the first line of the billing address of the customer."
+				},
+				"bill_add2": {
+					"$ref": "#/definitions/varchar2240",
+					"description": "For customer order transfers, this column contains the second line of the billing address of the customer."
+				},
+				"bill_add3": {
+					"$ref": "#/definitions/varchar2240",
+					"description": "For customer order transfers, this column contains the third line of the billing address of the customer."
+				},
+				"bill_city": {
+					"$ref": "#/definitions/varchar2120",
+					"description": "For customer order transfers, this column contains the city portion of the billing address."
+				},
+				"bill_company_name": {
+					"$ref": "#/definitions/varchar2120",
+					"description": "For customer order transfers, this column contains the company name for the billing address on the order."
+				},
+				"bill_country": {
+					"$ref": "#/definitions/varchar23",
+					"description": "For customer order transfers, this column contains the country portion of the billing address."
+				},
+				"bill_county": {
+					"$ref": "#/definitions/varchar2250",
+					"description": "For customer order transfers, this column contains the county portion of the billing address."
+				},
+				"bill_first_name": {
+					"$ref": "#/definitions/varchar2120",
+					"description": "For customer order transfers, this column contains the first name for the billing address on the order."
+				},
+				"bill_last_name": {
+					"$ref": "#/definitions/varchar2120",
+					"description": "For customer order transfers, this column contains the last name for the billing address on the order."
+				},
+				"bill_phone": {
+					"$ref": "#/definitions/varchar220",
+					"description": "For customer order transfers, this column contains the billing phone number."
+				},
+				"bill_phonetic_first": {
+					"$ref": "#/definitions/varchar2120",
+					"description": "For customer order transfers, this column contains the phonetic first name for the billing address on the order."
+				},
+				"bill_phonetic_last": {
+					"$ref": "#/definitions/varchar2120",
+					"description": "For customer order transfers, this column contains the phonetic last name for the billing address on the order."
+				},
+				"bill_post": {
+					"$ref": "#/definitions/varchar230",
+					"description": "For customer order transfers, this column contains the postal code portion of the billing address."
+				},
+				"bill_preferred_name": {
+					"$ref": "#/definitions/varchar2120",
+					"description": "For customer order transfers, this column contains the preferred name for the billing address on the order."
+				},
+				"bill_state": {
+					"$ref": "#/definitions/varchar23",
+					"description": "For customer order transfers, this column contains the state portion of the billing address."
+				},
+				"break_by_distro": {
+					"$ref": "#/definitions/varchar21",
+					"description": "Set to 'Y' if the deliver_type for the transfer's customer is 'S'. Otherwise, set to N."
+				},
+				"carrier_code": {
+					"$ref": "#/definitions/varchar24",
+					"description": "Indicates the carrier the order is to be shipped with, if specified on the order."
+				},
+				"carrier_service_code": {
+					"$ref": "#/definitions/varchar26",
+					"description": "Indicates the method that was selected for shipping by the customer placing the order (e.g. Standard Shipping, Overnight, etc.)."
+				},
+				"consumer_delivery_date": {
+					"$ref": "#/definitions/dateTime",
+					"description": "Indicates the desired date the delivery is required by the customer."
+				},
+				"consumer_delivery_time": {
+					"$ref": "#/definitions/dateTime",
+					"description": "Indicates the desired time the delivery is required by the customer."
+				},
+				"consumer_direct": {
+					"$ref": "#/definitions/varchar21",
+					"description": "Indicates the order as being consumer direct (Y) or not (N). An order is consumer direct if it is a customer order."
+				},
+				"context_type": {
+					"$ref": "#/definitions/varchar26",
+					"description": "Can be used to indicate the transfer reason or category, e.g. 'promotion'."
+				},
+				"context_value": {
+					"$ref": "#/definitions/varchar225",
+					"description": "Further info to indicate the reason or category for the transfer. For instance, if context_type was 'promotion', this could be the promotion number."
+				},
+				"cust_name": {
+					"$ref": "#/definitions/varchar240",
+					"description": "The name of the customer."
+				},
+				"cust_order_nbr": {
+					"$ref": "#/definitions/varchar248",
+					"description": "For customer order transfers, this column contains the master customer order number from the Order Management System."
+				},
+				"deliver_add1": {
+					"$ref": "#/definitions/varchar2240",
+					"description": "For customer order transfers, this column contains the first line of the delivery address of the customer."
+				},
+				"deliver_add2": {
+					"$ref": "#/definitions/varchar2240",
+					"description": "For customer order transfers, this column contains the second line of the delivery address of the customer."
+				},
+				"deliver_add3": {
+					"$ref": "#/definitions/varchar2240",
+					"description": "For customer order transfers, this column contains the third line of the delivery address of the customer."
+				},
+				"deliver_city": {
+					"$ref": "#/definitions/varchar2120",
+					"description": "For customer order transfers, this column contains the city portion of the delivery address."
+				},
+				"deliver_company_name": {
+					"$ref": "#/definitions/varchar2120",
+					"description": "For customer order transfers, this column contains the company name for the delivery address on the order."
+				},
+				"deliver_country_id": {
+					"$ref": "#/definitions/varchar23",
+					"description": "For customer order transfers, this column contains the country portion of the delivery address."
+				},
+				"deliver_county": {
+					"$ref": "#/definitions/varchar2250",
+					"description": "For customer order transfers, this column contains the county portion of the delivery address."
+				},
+				"deliver_first_name": {
+					"$ref": "#/definitions/varchar2120",
+					"description": "For customer order transfers, this column contains the first name for the delivery address on the order."
+				},
+				"deliver_last_name": {
+					"$ref": "#/definitions/varchar2120",
+					"description": "For customer order transfers, this column contains the last name for the delivery address on the order."
+				},
+				"deliver_phone": {
+					"$ref": "#/definitions/varchar220",
+					"description": "For customer order transfers, this column contains the delivery phone number."
+				},
+				"deliver_phonetic_first": {
+					"$ref": "#/definitions/varchar2120",
+					"description": "For customer order transfers, this column contains the phonetic first name for the delivery address on the order."
+				},
+				"deliver_phonetic_last": {
+					"$ref": "#/definitions/varchar2120",
+					"description": "For customer order transfers, this column contains the phonetic last name for the delivery address on the order."
+				},
+				"deliver_post": {
+					"$ref": "#/definitions/varchar230",
+					"description": "For customer order transfers, this column contains the postal code portion of the delivery address."
+				},
+				"deliver_preferred_name": {
+					"$ref": "#/definitions/varchar2120",
+					"description": "For customer order transfers, this column contains the preferred name for the delivery address on the order."
+				},
+				"deliver_state": {
+					"$ref": "#/definitions/varchar23",
+					"description": "For customer order transfers, this column contains the state portion of the delivery address."
+				},
+				"delivery_date": {
+					"$ref": "#/definitions/dateTime",
+					"description": "The earliest date that the transfer can be delivered to the store. This will be populated if the transfer type is PO-Linked."
+				},
+				"delivery_slot_desc": {
+					"$ref": "#/definitions/varchar2240",
+					"description": "Delivery slot description."
+				},
+				"delivery_slot_id": {
+					"$ref": "#/definitions/varchar215",
+					"description": "Specifies when the transfer quantity is needed at the location."
+				},
+				"doc_type": {
+					"$ref": "#/definitions/varchar21",
+					"description": "Defaulted to 'T' for RMS transfers."
+				},
+				"exp_dc_date": {
+					"$ref": "#/definitions/dateTime",
+					"description": "Date the inventory is expected to arrive at the DC."
+				},
+				"from_loc": {
+					"$ref": "#/definitions/varchar210",
+					"description": "The location number of the transfer from location. This field will contain either a store or warehouse number based on the from_loc_type field."
+				},
+				"from_loc_tsf_entity": {
+					"$ref": "#/definitions/number10",
+					"description": "Transfer entity of the from location."
+				},
+				"from_loc_type": {
+					"$ref": "#/definitions/varchar21",
+					"description": "Type of location in the from_loc field. Valid values are: S = Store, W = Warehouse, E = external finisher."
+				},
+				"from_stockholding_ind": {
+					"$ref": "#/definitions/varchar21",
+					"description": "Indicates if the from_loc store is stockholding or not. Only populated if from_loc_type is 'S'. Valid values are: 'Y' = yes, 'N' = no."
+				},
+				"from_store_type": {
+					"$ref": "#/definitions/varchar21",
+					"description": "Indicates the store type of the from_loc store. Only populated if from_loc_type is 'S'. Valid values are: 'C' = company store, 'F' = franchise store."
+				},
+				"fulfill_order_nbr": {
+					"$ref": "#/definitions/varchar248",
+					"description": "Contains the fulfillment order number for the transfer as provided by OMS. One or more fulfillment orders could relate back to a single customer order in OMS."
+				},
+				"inv_type": {
+					"$ref": "#/definitions/varchar26",
+					"description": "A specific transfer can only contain available or unavailable merchandise, never a combination of both. This column will indicate whether the transfer is for Available inventory or Unavailable inventory."
+				},
+				"message": {
+					"$ref": "#/definitions/varchar22000",
+					"description": "Any comments associated with the transfer."
+				},
+				"not_after_date": {
+					"$ref": "#/definitions/dateTime",
+					"description": "The last day delivery of the transfer will be accepted"
+				},
+				"order_type": {
+					"$ref": "#/definitions/varchar29",
+					"description": "This is the order type associated with transfers. RWMS uses this value to determine how to distribute stock orders. Valid values (e.g. Automatic, Manual, etc.) are on the order_types table."
+				},
+				"partial_delivery_ind": {
+					"$ref": "#/definitions/varchar21",
+					"description": "For customer order transfers, this column indicates if the order can be picked and shipped partially or if it should be shipped only when complete. Valid values are 'Y' or 'N'."
+				},
+				"physical_from_loc": {
+					"$ref": "#/definitions/number10",
+					"description": "Physical location that the from_loc belongs to."
+				},
+				"physical_to_loc": {
+					"$ref": "#/definitions/number10",
+					"description": "Physical location that the to_loc belongs to."
+				},
+				"pick_not_after_date": {
+					"$ref": "#/definitions/dateTime",
+					"description": "This is calculated as transfer approval date + days from code_detail where code_type = 'DEFT' and code = 'DATE'."
+				},
+				"pick_not_before_date": {
+					"$ref": "#/definitions/dateTime",
+					"description": "The date the transfer was approved."
+				},
+				"priority": {
+					"$ref": "#/definitions/number4",
+					"description": "Reserved for future use; currently defaulted to 1."
+				},
+				"to_loc": {
+					"$ref": "#/definitions/varchar210",
+					"description": "The location number of the transfer to location. This field will contain either a store or warehouse number based on the to_loc_type field."
+				},
+				"to_loc_tsf_entity": {
+					"$ref": "#/definitions/number10",
+					"description": "Transfer entity of the to location."
+				},
+				"to_loc_type": {
+					"$ref": "#/definitions/varchar21",
+					"description": "Type of location in the to_loc field. Valid values are: S = Store, W = Warehouse, E = external finisher."
+				},
+				"to_stockholding_ind": {
+					"$ref": "#/definitions/varchar21",
+					"description": "Indicates if the to_loc store is stockholding or not. Only populated if to_loc_type is 'S'. Valid values are: 'Y' = yes, 'N' = no."
+				},
+				"to_store_type": {
+					"$ref": "#/definitions/varchar21",
+					"description": "Indicates the store type of the to_loc store. Only populated if to_loc_type is 'S'. Valid values are: 'C' = company store, 'F' = franchise store."
+				},
+				"tsf_no": {
+					"$ref": "#/definitions/number12",
+					"description": "The number that uniquely identifies the transfer."
+				},
+				"tsf_parent_no": {
+					"$ref": "#/definitions/number12",
+					"description": "Identifies the transfer at the level above the transfer"
+				},
+				"tsf_status": {
+					"$ref": "#/definitions/varchar21",
+					"description": "Status of the transfer."
+				},
+				"tsf_type": {
+					"$ref": "#/definitions/varchar26",
+					"description": "A code for the type of the transfer, such as SR - Store Requisition CO - Customer Order RV - RTV CF - Confirmation NS - Non-Salable AD - Administrative MR - Manual Requisitions PL - PO-Linked Transfer."
+				}
+			},
+			"required": [
+				"break_by_distro",
+				"consumer_direct",
+				"doc_type",
+				"from_loc",
+				"from_loc_type",
+				"order_type",
+				"physical_from_loc",
+				"physical_to_loc",
+				"pick_not_before_date",
+				"to_loc",
+				"to_loc_type",
+				"tsf_no",
+				"tsf_type"
+			],
+			"type": "object"
+		},
+		".TsfDtl": {
+			"additionalProperties": false,
+			"description": "Description is not available.",
+			"properties": {
+				"TsfDtlTckt": {
+					"items": {
+						"$ref": "#/definitions/.TsfDtlTckt"
+					},
+					"type": "array"
+				},
+				"comments": {
+					"$ref": "#/definitions/varchar22000",
+					"description": "Any comments associated with the transfer line item."
+				},
+				"expedite_flag": {
+					"$ref": "#/definitions/varchar21",
+					"description": "If TSFHEAD.FREIGHT_CODE is 'E', expedite_flag is 'Y'. Otherwise, expedite_flag is 'N'."
+				},
+				"inv_status": {
+					"$ref": "#/definitions/number2",
+					"description": "Contains the inventory status, if one exists, for the transfer detail record. The inventory status field corresponds to the inventory status type found on the INV_STATUS_TYPES table."
+				},
+				"item": {
+					"$ref": "#/definitions/varchar225",
+					"description": "Unique alphanumeric value that identifies the item."
+				},
+				"item_line_no": {
+					"$ref": "#/definitions/number10",
+					"description": "Indicates the detail item line number for customer order transfers."
+				},
+				"price": {
+					"$ref": "#/definitions/number20_4",
+					"description": "Contains the unit retail price in the selling unit of measure for the item/location combination. This field is generated from a call to PRICING_ATTRIB_SQL.GET_RETAIL with item as the input."
+				},
+				"priority": {
+					"$ref": "#/definitions/number4",
+					"description": "This field is currently defaulted to 1. It is reserved for future use."
+				},
+				"selling_uom": {
+					"$ref": "#/definitions/varchar24",
+					"description": "Contains the selling unit of measure of the item. This field is generated from a call to PRICING_ATTRIB_SQL.GET_RETAIL with item as the input."
+				},
+				"store_ord_mult": {
+					"$ref": "#/definitions/varchar21",
+					"description": "The multiple in which the item needs to be shipped from a warehouse to the location."
+				},
+				"ticket_type_id": {
+					"$ref": "#/definitions/varchar24",
+					"description": "The ticket type associated with the item."
+				},
+				"transaction_uom": {
+					"$ref": "#/definitions/varchar24",
+					"description": "Holds the original transaction unit of measure to be passed on to the store system. It is only used for customer direct orders coming from the Order Management System. All quantities on the payload are expressed in item's standard unit of measure."
+				},
+				"tsf_po_link_no": {
+					"$ref": "#/definitions/number12",
+					"description": "A reference number to link the item on the transfer to any purchase orders that have been created to allow the from location (i.e. warehouse) on the transfer to fulfill the transfer quantity to the to location (i.e store) on the transfer."
+				},
+				"tsf_qty": {
+					"$ref": "#/definitions/number12_4",
+					"description": "The total quantity of the item reserved at the from location for this transfer. This field is set back to zero each time the stock is either merged into a 'Combined Transfer' or shipped."
+				}
+			},
+			"required": [
+				"item",
+				"tsf_qty"
+			],
+			"type": "object"
+		},
+		".TsfDtlTckt": {
+			"additionalProperties": false,
+			"description": "Description is not available.",
+			"properties": {
+				"comp_item": {
+					"$ref": "#/definitions/varchar225",
+					"description": "Alphanumeric value that identifies the item within the pack."
+				},
+				"comp_price": {
+					"$ref": "#/definitions/number20_4",
+					"description": "Contains the unit retail price in the selling unit of measure for the comp item/location combination. This field is generated from a call to PRICING_ATTRIB_SQL.GET_RETAIL with comp_item as the input."
+				},
+				"comp_selling_uom": {
+					"$ref": "#/definitions/varchar24",
+					"description": "Contains the selling unit of measure for the comp item. This field is generated from a call to PRICING_ATTRIB_SQL.GET_RETAIL with comp_item as the input."
+				}
+			},
+			"required": [
+				"comp_item"
+			],
+			"type": "object"
+		},
+		"varchar2250": {
+			"description": "This type can hold a string of max\n                length of 250 characters.\n            ",
+			"maxLength": 250,
+			"type": "string"
+		},
+		"varchar230": {
+			"description": "This type can hold a string of max\n                length of 30 characters.\n            ",
+			"maxLength": 30,
+			"type": "string"
+		},
+		"number10": {
+			"description": "This type can hold a number of digits count 10.",
+			"maximum": 9223372036854775807,
+			"minimum": -9223372036854775808,
+			"type": "integer"
+		},
+		"number12": {
+			"description": "This type can hold a number of digits count 12.",
+			"maximum": 9223372036854775807,
+			"minimum": -9223372036854775808,
+			"type": "integer"
+		},
+		"number12_4": {
+			"description": "This type can hold a number of digits count 12 and fraction digit count of 4.",
+			"type": "number"
+		},
+		"number2": {
+			"description": "This type can hold a number of digits count 2.",
+			"maximum": 2147483647,
+			"minimum": -2147483648,
+			"type": "integer"
+		},
+		"number20_4": {
+			"description": "This type can hold a number of digits count 20 and fraction digit count of 4.",
+			"type": "number"
+		},
+		"number4": {
+			"description": "This type can hold a number of digits count 4.",
+			"maximum": 2147483647,
+			"minimum": -2147483648,
+			"type": "integer"
+		},
+		"varchar21": {
+			"description": "This type can hold a string of max length of 1 characters.",
+			"maxLength": 1,
+			"type": "string"
+		},
+		"varchar210": {
+			"description": "This type can hold a string of max length of 10 characters.",
+			"maxLength": 10,
+			"type": "string"
+		},
+		"varchar2120": {
+			"description": "This type can hold a string of max length of 120 characters.",
+			"maxLength": 120,
+			"type": "string"
+		},
+		"varchar215": {
+			"description": "This type can hold a string of max length of 10 characters.",
+			"maxLength": 15,
+			"type": "string"
+		},
+		"varchar220": {
+			"description": "This type can hold a string of max length of 20 characters.",
+			"maxLength": 20,
+			"type": "string"
+		},
+		"varchar22000": {
+			"description": "This type can hold a string of max length of 2000 characters.",
+			"maxLength": 2000,
+			"type": "string"
+		},
+		"varchar2240": {
+			"description": "This type can hold a string of max length of 240 characters.",
+			"maxLength": 240,
+			"type": "string"
+		},
+		"varchar225": {
+			"description": "This type can hold a string of max length of 25 characters.",
+			"maxLength": 25,
+			"type": "string"
+		},
+		"varchar2250": {
+			"description": "This type can hold a string of max length of 250 characters.",
+			"maxLength": 250,
+			"type": "string"
+		},
+		"varchar23": {
+			"description": "This type can hold a string of max length of 3 characters.",
+			"maxLength": 3,
+			"type": "string"
+		},
+		"varchar230": {
+			"description": "This type can hold a string of max length of 30 characters.",
+			"maxLength": 30,
+			"type": "string"
+		},
+		"varchar24": {
+			"description": "This type can hold a string of max length of 4 characters.",
+			"maxLength": 4,
+			"type": "string"
+		},
+		"varchar240": {
+			"description": "This type can hold a string of max length of 40 characters.",
+			"maxLength": 40,
+			"type": "string"
+		},
+		"varchar248": {
+			"description": "This type can hold a string of max length of 48 characters.",
+			"maxLength": 48,
+			"type": "string"
+		},
+		"varchar26": {
+			"description": "This type can hold a string of max length of 6 characters.",
+			"maxLength": 6,
+			"type": "string"
+		},
+		"varchar29": {
+			"description": "This type can hold a string of max length of 9 characters.",
+			"maxLength": 9,
+			"type": "string"
+		},
+		"dateTime": {
+			"type": "string"
+		}
+	},
+	"description": "JSON Schema generated by XMLSpy v2021 rel. 3 (x64) (http://www.altova.com)",
+	"properties": {
+		"CustFlexAttriVo": {
+			"$ref": "#/definitions/.CustFlexAttriVo"
+		},
+		"TsfDesc": {
+			"$ref": "#/definitions/.TsfDesc"
+		},
+		"TsfDtl": {
+			"$ref": "#/definitions/.TsfDtl"
+		},
+		"TsfDtlTckt": {
+			"$ref": "#/definitions/.TsfDtlTckt"
+		}
+	},
+	"type": "object"
+}

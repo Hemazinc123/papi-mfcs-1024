@@ -1,0 +1,23 @@
+%dw 2.0
+output application/json
+skipNullOn="everywhere" 
+ns ns1 http://www.oracle.com/retail/integration/base/bo/TsfRef/v1
+---
+{
+   TsfRef:{
+       tsf_no:payload.TsfRef.tsf_no as Number,
+       doc_type:payload.TsfRef.doc_type ,
+       physical_from_loc:payload.TsfRef.physical_from_loc as Number,
+       from_loc:payload.TsfRef.from_loc,
+       from_loc_type:payload.TsfRef.from_loc_type,
+      physical_to_loc:payload.TsfRef.physical_to_loc as Number,
+      to_loc:payload.TsfRef.to_loc ,
+      to_loc_type:payload.TsfRef.to_loc_type,
+      to_store_type:payload.TsfRef.to_store_type,
+      to_stockholding_ind:payload.TsfRef.to_stockholding_ind,
+     TsfDtlRef:payload.TsfRef.*TsfDtlRef map (item,index)->
+     {
+item:item.item
+     }
+   } 
+}

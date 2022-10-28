@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TsfDesc xmlns="http://www.oracle.com/retail/integration/base/bo/TsfDesc/v1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <tsf_no>12551249</tsf_no>
+   <doc_type>T</doc_type>
+   <physical_from_loc>650</physical_from_loc>
+   <from_loc_type>W</from_loc_type>
+   <from_loc>1651</from_loc>
+   <physical_to_loc>111</physical_to_loc>
+   <to_loc_type>S</to_loc_type>
+   <to_store_type>C</to_store_type>
+   <to_stockholding_ind>Y</to_stockholding_ind>
+   <to_loc>111</to_loc>
+   <tsf_type>IC</tsf_type>
+   <pick_not_before_date>2021-09-09T00:00:00.000Z</pick_not_before_date>
+   <pick_not_after_date>2021-10-09T00:00:00.000Z</pick_not_after_date>
+   <order_type>AUTOMATIC</order_type>
+   <break_by_distro>N</break_by_distro>
+   <delivery_date>2021-10-28T00:00:00.000Z</delivery_date>
+   <ns1:TsfDtl xmlns:ns1="http://www.oracle.com/retail/integration/base/bo/TsfDesc/v1">
+      <ns1:item>10000991</ns1:item>
+      <ns1:tsf_qty>5</ns1:tsf_qty>
+      <ns1:price>20</ns1:price>
+      <ns1:selling_uom>EA</ns1:selling_uom>
+      <ns1:expedite_flag>N</ns1:expedite_flag>
+      <ns1:store_ord_mult>E</ns1:store_ord_mult>
+   </ns1:TsfDtl>
+   <exp_dc_date>2021-10-28T00:00:00.000Z</exp_dc_date>
+   <approval_id>RELEX</approval_id>
+   <approval_date>2021-09-09T00:00:00.000Z</approval_date>
+   <from_loc_tsf_entity>1</from_loc_tsf_entity>
+   <to_loc_tsf_entity>3001944942</to_loc_tsf_entity>
+   <inv_type>A</inv_type>
+   <tsf_status>A</tsf_status>
+   <not_after_date>2021-10-28T00:00:00.000Z</not_after_date>
+   <context_type>JDA_NO</context_type>
+   <context_value>AA55645</context_value>
+   <consumer_direct>N</consumer_direct>
+</TsfDesc>

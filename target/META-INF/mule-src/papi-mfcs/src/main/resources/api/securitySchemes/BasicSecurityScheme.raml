@@ -1,0 +1,12 @@
+#%RAML 1.0 SecurityScheme
+    type: x-basic
+    description: Basic Security Scheme
+    describedBy:
+      headers:
+        username:
+            type: string
+        password:
+            type: string
+      responses:
+        401:
+          description: Authentication denied or Invalid Credentials

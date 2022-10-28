@@ -1,0 +1,71 @@
+https:
+  host: "0.0.0.0"
+  port: "8082"
+  listener:
+   path: "/*"
+  private:
+   host: "0.0.0.0"
+   port: "8092"
+  responseTimeout: "60000"
+  idleTimeout: "30000"   
+    
+http:
+  host: "0.0.0.0"
+  port: "8081"
+  listener:
+    path: "/*"
+  private:
+    host: "0.0.0.0"
+    port: "8091"
+  responseTimeout: "60000"
+  idleTimeout: "30000"    
+
+app:
+  name: ${project.artifactId}
+  version: ${project.version}
+  businessDomain: "InventoryManagement"
+  
+mule:
+  apicategory: "Process API"
+
+headers:
+  healthCheck: "healthCheck"
+  sourceSystem: "MFCS"
+  sourceChannel: "HTTPS"
+  targetSystem: "GCP PUB-SUB"
+  targetChannel: "HTTPS"
+  transactionType: ""
+  domain : "Inventory Management"
+  requestType: "inventoryAdjustmentFromTransfers"
+  mfcs:
+    sourceSystem: "MFCS"
+    type:
+      transferCre: "transfercre"
+      transferHdrMod: "transferhdrmod"
+      transferDtlCre: "transferdtlcre"
+      transferDtlMod: "transferdtlmod" 
+      transferDel: "transferdel"
+      transferDtlDel: "transferdtldel"
+  jda:
+    sourceSystem: "JDA"
+    sourceChannel: "DB"
+    type: "JDA Transfers"
+  siocs_to_mao:
+    sourceSystem: "SIOCS"
+    sourceChannel: "HTTPS"
+    targetSystem: "MAO"
+    targetChannel: "GCP PUB-SUB"
+    domain : "InventoryManagement" 
+    type: "sostatuscre"    
+  relex:
+    sourceSystem:  "RELEX-DAS"
+    sourceChannel: "DB"
+    type: "RELEX-TRANSFER-REQUEST"
+  ecom:
+    sourceSystem:  "ECOM-DAS"
+    sourceChannel: "DB" 
+    targetSystem: "MFCS"
+    targetChannel: "HTTPS"    
+    type: "ECOM-TRANSFER-REQUEST"    
+    
+    

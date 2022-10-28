@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
+
+
+    <flow name="api-main">
+        <http:listener config-ref="im-mfcs-transfer-papi-httpListenerConfig" path="/api/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <ee:transform doc:name="vHttpHeaders" doc:id="a4cda369-24ac-4cbd-8b8b-dd746fc8209a" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="vReqPayload" ><![CDATA[payload ]]></ee:set-variable>
+				<ee:set-variable variableName="vHttpHeaders" ><![CDATA[%dw 2.0 
+
+output application/json
+ ---
+ {
+ 	sourceSystem: attributes.headers.sourceSystem,
+ 	sourceChannel: attributes.headers.sourceChannel,
+ 	requestIdentifier: attributes.headers.requestIdentifier,
+ 	targetSystem: p('headers.targetSystem'),
+ 	targetChannel: p('headers.targetChannel'),
+ 	transactionDomain: p('headers.domain'),
+ 	transactionType:attributes.headers."type",
+ 	correlationId: (if (attributes.headers.correlationId !=null
+				and attributes.headers.correlationId !="")
+				attributes.headers.correlationId
+				else
+				correlationId),
+ 	family: attributes.headers.family,
+ 	"type": attributes.headers."type"
+ }]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<apikit:router config-ref="im-mfcs-transfer-papi-config" />
+        <error-handler>
+            <on-error-propagate type="APIKIT:BAD_REQUEST">
+                <ee:transform>
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Bad request"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">400</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:NOT_FOUND">
+                <ee:transform>
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Resource not found"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">404</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:METHOD_NOT_ALLOWED">
+                <ee:transform>
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Method not allowed"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">405</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:NOT_ACCEPTABLE">
+                <ee:transform>
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Not acceptable"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">406</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:UNSUPPORTED_MEDIA_TYPE">
+                <ee:transform>
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Unsupported media type"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">415</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:NOT_IMPLEMENTED">
+                <ee:transform>
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Not Implemented"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">501</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+        </error-handler>
+    </flow>
+    <flow name="mf-delete-transfer\details">
+		<flow-ref doc:name="mf-delete-transfer-details" doc:id="0620f74d-9520-4c20-8f07-1cf309bd22aa" name="mf-delete-transfer-details"/>
+    </flow>
+    <flow name="mf-delete-transfer">
+		<flow-ref doc:name="mf-delete-transfer-details" doc:id="551abb50-2ca3-43bf-ad2e-f854acc5a331" name="mf-delete-transfer-details" />
+    </flow>
+    <flow name="mf-patch-transfer\details">
+		<flow-ref doc:name="mf-patch-transfer-Deatails" doc:id="8dc3d1ce-aa7b-452f-84c1-6183f3954354" name="mf-patch-transfer-Deatails" />
+    </flow>
+    <flow name="mf-patch-transfer\header">
+		<flow-ref doc:name="mf-patch-transfer-Deatails" doc:id="94defb6e-b991-4fd9-a6ef-f7694ca4762e" name="mf-patch-transfer-Deatails" />
+    </flow>
+    <flow name="mf-get-healthCheck">
+		<flow-ref doc:name="sf-get-healthCheck" doc:id="756bc1c0-2e8c-48f3-8f2e-7ebc4d43e161" name="sf-get-ping"/>
+    </flow>
+    <flow name="mf-get-ping" doc:id="7cd85351-ce55-47f8-80fa-375f4e331689">
+		<flow-ref doc:name="sf-get-ping" doc:id="ba74af07-ec2f-4f1b-8cf3-f199941b0f22" name="sf-get-ping"/>
+    </flow>
+    <flow name="mf-post-transfer\details">
+		<flow-ref doc:name="mf-patch-transfer-Deatails" doc:id="60872fa7-f42a-4637-950b-23acffcb7efa" name="mf-patch-transfer-Deatails" />
+    </flow>
+    <flow name="mf-post-transfer" doc:id="9ff473d4-064b-4077-913c-0173588ea709">
+		<flow-ref doc:name="mf-patch-transfer-Deatails" doc:id="85d17cb7-342e-4b38-8e35-db82540f558e" name="mf-patch-transfer-Deatails"/>
+    </flow>
+</mule>

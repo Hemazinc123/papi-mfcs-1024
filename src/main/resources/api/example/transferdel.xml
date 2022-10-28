@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TsfRef xmlns="http://www.oracle.com/retail/integration/base/bo/TsfRef/v1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <tsf_no>12551249</tsf_no>
+   <doc_type>T</doc_type>
+   <physical_from_loc>650</physical_from_loc>
+   <from_loc>1651</from_loc>
+   <from_loc_type>W</from_loc_type>
+   <physical_to_loc>111</physical_to_loc>
+   <to_loc>111</to_loc>
+   <to_loc_type>S</to_loc_type>
+   <to_store_type>C</to_store_type>
+   <to_stockholding_ind>Y</to_stockholding_ind>
+</TsfRef>

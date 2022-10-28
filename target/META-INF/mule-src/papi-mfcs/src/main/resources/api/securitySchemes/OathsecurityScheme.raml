@@ -1,0 +1,14 @@
+#%RAML 1.0 SecurityScheme
+description: Oauth 2.0 security scheme
+type: OAuth 2.0
+describedBy:
+  headers:
+    Authorization: 
+      description: Use to send a valid OAuth to Access token. Do not use with the "access_token" query string parameter.
+      type: string
+      required: true
+  responses:
+    401:
+      description: Bad or Expired token
+    403: 
+      description: Bad OAuth request
